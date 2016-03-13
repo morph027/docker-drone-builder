@@ -24,3 +24,7 @@ RUN	cd /tmp \
 
 RUN	cd /tmp \
 	&& (curl -s https://raw.githubusercontent.com/drone/drone/master/contrib/setup-sassc.sh | sh)
+
+RUN	echo "export PATH=\$PATH:/scratch/usr/local/bin" > /etc/profile.d/sqlite.sh
+
+RUN	echo "export GOROOT=/usr/local/go\nexport GOPATH=/tmp/go\nexport PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin" > /etc/profile.d/go.sh
