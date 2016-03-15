@@ -25,6 +25,18 @@ RUN	cd /tmp \
 RUN	cd /tmp \
 	&& (curl -s https://raw.githubusercontent.com/drone/drone/master/contrib/setup-sassc.sh | sh)
 
-RUN	echo "export PATH=\$PATH:/scratch/usr/local/bin" > /etc/profile.d/sqlite.sh
+ENV	GOROOT=/usr/local/go
 
-RUN	echo "export GOROOT=/usr/local/go\nexport GOPATH=/tmp/go\nexport PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin" > /etc/profile.d/go.sh
+ENV	GOPATH=/tmp/go
+
+RUN	gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 \
+	&& (\curl -ksSL https://get.rvm.io | bash -s stable --ruby)
+
+ENV	PATH $GOROOT/bin:$GOPATH/bin:/scratch/usr/local/bin:/usr/local/rvm/bin:/usr/local/rvm/rubies/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RUN	gem install fpm --no-rdoc --no-ri
+
+RUN	curl -s -o /tmp/aptly_cli.gem http://download.morph027.de/aptly_cli-0.2.1.gem \
+	&& gem install commander httmultiparty --no-ri --no-rdoc \
+	&& gem install --local /tmp/aptly_cli.gem \
+	&& rm -f /tmp/aptly_cli.gem
