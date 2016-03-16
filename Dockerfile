@@ -37,8 +37,4 @@ RUN	gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 \
 
 ENV	PATH $GOROOT/bin:$GOPATH/bin:/scratch/usr/local/bin:/usr/local/rvm/bin:/usr/local/rvm/rubies/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-RUN	/bin/bash -c "source /usr/local/rvm/scripts/rvm \
-	&& gem install commander httmultiparty --no-ri --no-rdoc \
-	&& curl -s http://download.morph027.de/aptly_cli-0.2.1.gem -o /tmp/aptly_cli.gem \
-	&& gem install --local /tmp/aptly_cli.gem --no-ri --no-rdoc \
-	&& rm -f /tmp/aptly_cli.gem"
+RUN	gem install aptly_cli --no-rdoc --no-ri
